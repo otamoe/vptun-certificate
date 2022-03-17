@@ -32,7 +32,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	configDir := path.Join(userHomeDir, ".ntun")
+	configDir := path.Join(userHomeDir, ".vptun")
 	// 输出文件名
 	libviper.SetDefault("output", configDir, "output dir")
 
@@ -46,7 +46,7 @@ func main() {
 		}
 	}()
 
-	viper.SetEnvPrefix("ntun-certificate")
+	viper.SetEnvPrefix("vptun-certificate")
 	if err = libviper.Parse(); err != nil {
 		return
 	}

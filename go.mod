@@ -1,4 +1,4 @@
-module github.com/otamoe/ntun-certificate
+module github.com/otamoe/vptun-certificate
 
 go 1.17
 
