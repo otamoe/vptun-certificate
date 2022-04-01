@@ -11,6 +11,8 @@ github.com/mitchellh/mapstructure v1.4.3 h1:OVowDSCllw/YjdLkam3/sm7wEtOy59d8ndGg
 github.com/mitchellh/mapstructure v1.4.3/go.mod h1:bFUtVrKA4DC2yAKiSyO/QUcy7e+RRV2QTWOzhPopBRo=
 github.com/otamoe/go-library v0.3.5 h1:xEput+mAyBh1lvgNKg+F9m6rylugdUf7+EkVwPGHrlk=
 github.com/otamoe/go-library v0.3.5/go.mod h1:GFsYgR4g/42UjpRm0/9ZUYUYA1QW9gWQPEJ3XiFUdXs=
+github.com/otamoe/go-library v0.3.17 h1:EoWQBgdfINZ7LRNLMSofLf2WMhaIPZmYP91kJwTylU8=
+github.com/otamoe/go-library v0.3.17/go.mod h1:9RFRzlV31S/HVF5DqSRPiF9llHfu4rbuCCECUOAY7H4=
 github.com/pelletier/go-toml v1.9.4 h1:tjENF6MfZAg8e4ZmZTeWaWiT2vXtsoO6+iuOjFhECwM=
 github.com/pelletier/go-toml v1.9.4/go.mod h1:u1nR/EPcESfeI/szUZKdtJ0xRNbUoANCkoOuaOx1Y+c=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
