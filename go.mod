@@ -3,7 +3,7 @@ module github.com/otamoe/vptun-certificate
 go 1.17
 
 require (
-	github.com/otamoe/go-library v0.3.17
+	github.com/otamoe/go-library v0.4.2
 	github.com/spf13/viper v1.10.1
 )
 

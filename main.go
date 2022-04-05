@@ -63,47 +63,68 @@ func main() {
 		}
 	}
 
-	outputHttpCACrt := path.Join(output, "http/ca.crt")
-	outputHttpCAKey := path.Join(output, "http/ca.key")
-	outputHttpServerCrt := path.Join(output, "http/server.crt")
-	outputHttpServerKey := path.Join(output, "http/server.key")
+	outputServerHttpCACrt := path.Join(output, "server/http/ca.crt")
+	outputServerHttpCAKey := path.Join(output, "server/http/ca.key")
+	outputServerHttpServerCrt := path.Join(output, "server/http/server.crt")
+	outputServerHttpServerKey := path.Join(output, "server/http/server.key")
 
-	outputGrpcCACrt := path.Join(output, "grpc/ca.crt")
-	outputGrpcCAKey := path.Join(output, "grpc/ca.key")
-	outputGrpcServerCrt := path.Join(output, "grpc/server.crt")
-	outputGrpcServerKey := path.Join(output, "grpc/server.key")
-	outputGrpcClientCrt := path.Join(output, "grpc/client.crt")
-	outputGrpcClientKey := path.Join(output, "grpc/client.key")
+	outputServerGrpcCACrt := path.Join(output, "server/grpc/ca.crt")
+	outputServerGrpcCAKey := path.Join(output, "server/grpc/ca.key")
+	outputServerGrpcServerCrt := path.Join(output, "server/grpc/server.crt")
+	outputServerGrpcServerKey := path.Join(output, "server/grpc/server.key")
+	outputServerGrpcClientCrt := path.Join(output, "server/grpc/client.crt")
+	outputServerGrpcClientKey := path.Join(output, "server/grpc/client.key")
 
-	if err = fileExists(outputHttpCACrt); err != nil {
-		return
+	outputClientGrpcCaCrt := path.Join(output, "client/grpc/ca.crt")
+	outputClientGrpcClientCrt := path.Join(output, "client/grpc/client.crt")
+	outputClientGrpcClientKey := path.Join(output, "client/grpc/client.key")
+
+	var errs []error
+	if err = fileExists(outputServerHttpCACrt); err != nil {
+		errs = append(errs, err)
 	}
-	if err = fileExists(outputHttpCAKey); err != nil {
-		return
+	if err = fileExists(outputServerHttpCAKey); err != nil {
+		errs = append(errs, err)
 	}
-	if err = fileExists(outputHttpServerCrt); err != nil {
-		return
+	if err = fileExists(outputServerHttpServerCrt); err != nil {
+		errs = append(errs, err)
 	}
-	if err = fileExists(outputHttpServerKey); err != nil {
-		return
+	if err = fileExists(outputServerHttpServerKey); err != nil {
+		errs = append(errs, err)
 	}
 
-	if err = fileExists(outputGrpcCACrt); err != nil {
-		return
+	if err = fileExists(outputServerGrpcCACrt); err != nil {
+		errs = append(errs, err)
 	}
-	if err = fileExists(outputGrpcCAKey); err != nil {
-		return
+	if err = fileExists(outputServerGrpcCAKey); err != nil {
+		errs = append(errs, err)
 	}
-	if err = fileExists(outputGrpcServerCrt); err != nil {
-		return
+	if err = fileExists(outputServerGrpcServerCrt); err != nil {
+		errs = append(errs, err)
 	}
-	if err = fileExists(outputGrpcServerKey); err != nil {
-		return
+	if err = fileExists(outputServerGrpcServerKey); err != nil {
+		errs = append(errs, err)
 	}
-	if err = fileExists(outputGrpcClientCrt); err != nil {
-		return
+	if err = fileExists(outputServerGrpcClientCrt); err != nil {
+		errs = append(errs, err)
 	}
-	if err = fileExists(outputGrpcClientKey); err != nil {
+	if err = fileExists(outputServerGrpcClientKey); err != nil {
+		errs = append(errs, err)
+	}
+	if err = fileExists(outputClientGrpcCaCrt); err != nil {
+		errs = append(errs, err)
+	}
+	if err = fileExists(outputClientGrpcClientCrt); err != nil {
+		errs = append(errs, err)
+	}
+	if err = fileExists(outputClientGrpcClientKey); err != nil {
+		errs = append(errs, err)
+	}
+	if len(errs) != 0 {
+		for _, err = range errs {
+			fmt.Println(err)
+		}
+		err = nil
 		return
 	}
 
@@ -137,58 +158,75 @@ func main() {
 		return
 	}
 
-	os.MkdirAll(path.Join(output, "http"), 0755)
-	os.MkdirAll(path.Join(output, "grpc"), 0755)
+	os.MkdirAll(path.Join(output, "server/http"), 0755)
+	os.MkdirAll(path.Join(output, "server/grpc"), 0755)
+	os.MkdirAll(path.Join(output, "client/grpc"), 0755)
 
 	// 写入
-	if err = ioutil.WriteFile(outputHttpCAKey, []byte(httpCA.PrivateKey), 0600); err != nil {
+	if err = ioutil.WriteFile(outputServerHttpCAKey, []byte(httpCA.PrivateKey), 0600); err != nil {
 		return
 	}
-	if err = ioutil.WriteFile(outputHttpCACrt, []byte(httpCA.Certificate), 0600); err != nil {
-		return
-	}
-
-	if err = ioutil.WriteFile(outputHttpServerKey, []byte(httpServer.PrivateKey), 0600); err != nil {
-		return
-	}
-	if err = ioutil.WriteFile(outputHttpServerCrt, []byte(httpServer.Certificate), 0600); err != nil {
-		return
-	}
-	if err = ioutil.WriteFile(outputGrpcCAKey, []byte(grpcCA.PrivateKey), 0600); err != nil {
-		return
-	}
-	if err = ioutil.WriteFile(outputGrpcCACrt, []byte(grpcCA.Certificate), 0600); err != nil {
+	if err = ioutil.WriteFile(outputServerHttpCACrt, []byte(httpCA.Certificate), 0600); err != nil {
 		return
 	}
 
-	if err = ioutil.WriteFile(outputGrpcServerKey, []byte(grpcServer.PrivateKey), 0600); err != nil {
+	if err = ioutil.WriteFile(outputServerHttpServerKey, []byte(httpServer.PrivateKey), 0600); err != nil {
 		return
 	}
-	if err = ioutil.WriteFile(outputGrpcServerCrt, []byte(grpcServer.Certificate), 0600); err != nil {
+	if err = ioutil.WriteFile(outputServerHttpServerCrt, []byte(httpServer.Certificate), 0600); err != nil {
 		return
 	}
-	if err = ioutil.WriteFile(outputGrpcClientKey, []byte(grpcClient.PrivateKey), 0600); err != nil {
+	if err = ioutil.WriteFile(outputServerGrpcCAKey, []byte(grpcCA.PrivateKey), 0600); err != nil {
 		return
 	}
-	if err = ioutil.WriteFile(outputGrpcClientCrt, []byte(grpcClient.Certificate), 0600); err != nil {
+	if err = ioutil.WriteFile(outputServerGrpcCACrt, []byte(grpcCA.Certificate), 0600); err != nil {
+		return
+	}
+
+	if err = ioutil.WriteFile(outputServerGrpcServerKey, []byte(grpcServer.PrivateKey), 0600); err != nil {
+		return
+	}
+	if err = ioutil.WriteFile(outputServerGrpcServerCrt, []byte(grpcServer.Certificate), 0600); err != nil {
+		return
+	}
+	if err = ioutil.WriteFile(outputServerGrpcClientKey, []byte(grpcClient.PrivateKey), 0600); err != nil {
+		return
+	}
+	if err = ioutil.WriteFile(outputServerGrpcClientCrt, []byte(grpcClient.Certificate), 0600); err != nil {
+		return
+	}
+
+	// client
+	if err = ioutil.WriteFile(outputClientGrpcCaCrt, []byte(grpcCA.Certificate), 0600); err != nil {
+		return
+	}
+	if err = ioutil.WriteFile(outputClientGrpcClientKey, []byte(grpcClient.PrivateKey), 0600); err != nil {
+		return
+	}
+	if err = ioutil.WriteFile(outputClientGrpcClientCrt, []byte(grpcClient.Certificate), 0600); err != nil {
 		return
 	}
 
 	fmt.Println("")
-	fmt.Println("Http CA PrivateKey : ", outputHttpCAKey)
-	fmt.Println("Http CA Certificate: ", outputHttpCACrt)
+	fmt.Println("Server Http CA PrivateKey : ", outputServerHttpCAKey)
+	fmt.Println("Server Http CA Certificate: ", outputServerHttpCACrt)
 	fmt.Println("")
-	fmt.Println("Http Server PrivateKey : ", outputHttpServerKey)
-	fmt.Println("Http Server Certificate: ", outputHttpServerCrt)
+	fmt.Println("Server Http Server PrivateKey : ", outputServerHttpServerKey)
+	fmt.Println("Server Http Server Certificate: ", outputServerHttpServerCrt)
 	fmt.Println("")
-	fmt.Println("Grpc CA PrivateKey : ", outputGrpcCAKey)
-	fmt.Println("Grpc CA Certificate: ", outputGrpcCACrt)
+	fmt.Println("Server Grpc CA PrivateKey : ", outputServerGrpcCAKey)
+	fmt.Println("Server Grpc CA Certificate: ", outputServerGrpcCACrt)
 	fmt.Println("")
-	fmt.Println("Grpc Server PrivateKey : ", outputGrpcServerKey)
-	fmt.Println("Grpc Server Certificate: ", outputGrpcServerCrt)
+	fmt.Println("Server Grpc Server PrivateKey : ", outputServerGrpcServerKey)
+	fmt.Println("Server Grpc Server Certificate: ", outputServerGrpcServerCrt)
 	fmt.Println("")
-	fmt.Println("Grpc Client PrivateKey : ", outputGrpcClientKey)
-	fmt.Println("Grpc Client Certificate: ", outputGrpcClientCrt)
+	fmt.Println("Server Grpc Client PrivateKey : ", outputServerGrpcClientKey)
+	fmt.Println("Server Grpc Client Certificate: ", outputServerGrpcClientCrt)
+	fmt.Println("")
+	fmt.Println("")
+	fmt.Println("Client Grpc CA Certificate    : ", outputClientGrpcCaCrt)
+	fmt.Println("Client Grpc Client PrivateKey : ", outputClientGrpcClientKey)
+	fmt.Println("Client Grpc Client Certificate: ", outputClientGrpcClientCrt)
 	fmt.Println("")
 }
 
